@@ -1,8 +1,8 @@
 from Algorithm import *
-from Problem_QAP import *
+from Problem_PFSP import *
 
-path = 'QAP/had12.dat'
-p = Problem_QAP(path)
+path = 'PFSP/tai20_5_0.fsp'
+p = Problem_PFSP(path)
 
 
 stopping_criteria = p.problem_size**4 
@@ -15,7 +15,7 @@ algorithm = Algorithm(
             initial_sigma = 0.3)
 
 
-algorithm.run_algorithm(p.get_objective_function)
+algorithm.run_algorithm(p.objective_function_tft)
 
 
 print(algorithm.best_solution.permutation)

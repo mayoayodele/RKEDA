@@ -24,3 +24,4 @@ class Problem_QAP:
 
     def get_objective_function( self, solution):
         return sum([int(self.flow_matrix[i][j]) *int(self.distance_matrix[solution[i]][solution[j]]) for j in range(self.problem_size) for i in range(self.problem_size) ])
+
