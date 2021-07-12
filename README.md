@@ -1,10 +1,12 @@
 # RKEDA
-This is a python implementation of the RK-EDA for solving the QAP
+This is a python implementation of the RK-EDA for solving the QAP and PFSP
 
 The implementation can be adapted for solving any permutation problem by passing in the objective function in Algorithm.run_algorithm
 
 
 An example of how to run the RK-EDA is presented in SolveQAP.py
+
+An example of how to run the RK-EDA is presented in SolvePFSP.py
 
 
 The algorithm is sensitive to sigma. See the following papers for more details
