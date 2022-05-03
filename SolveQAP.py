@@ -12,7 +12,10 @@ algorithm = Algorithm(
             population_size=50,
             truncation_size=5,
             number_of_generations= int(stopping_criteria/50),
-            initial_sigma = 0.3)
+            initial_sigma = 0.3,
+            end_sigma = 0.01, 
+            cooling_factor= 0.02)
+
 
 
 algorithm.run_algorithm(p.get_objective_function)
