@@ -1,11 +1,12 @@
 import random as r
 import copy
+import numpy as np
 
 class RK:
 
     def __init__(self, solution):
         self.solution = tuple(solution)
-        self.permutation = RK.random_key_to_permutation(solution)
+        self.permutation = np.copy(RK.random_key_to_permutation(solution))
         self.normalised_solution = RK.normalise_ranks(self.permutation)
         self.fitness = None
 

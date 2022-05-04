@@ -13,13 +13,21 @@ algorithm = Algorithm(
             truncation_size=5,
             number_of_generations= int(stopping_criteria/50),
             initial_sigma = 0.3,
-            end_sigma = 0.01, 
-            cooling_factor= 0.02)
+            end_sigma = 0.001, 
+            cooling_factor= 0.02
+            )
+
+
+h = np.array(p.flow_matrix, dtype = 'int64')
+d = np.array(p.distance_matrix, dtype = 'int64')
 
 
 
-algorithm.run_algorithm(p.get_objective_function)
+
+algorithm.run_algorithm(Problem_QAP.get_objective_function(h, d ))
 
 
 print(algorithm.best_solution.permutation)
 print(algorithm.best_solution.fitness)
+
+
