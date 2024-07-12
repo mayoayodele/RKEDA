@@ -40,6 +40,12 @@ class Algorithm:
                 rk = RK(solution)
                 rk.fitness = objective_function(rk.permutation)
                 population.append(rk)
+            best_solution = min(population)
+            if(j==0):
+                self.best_solution = best_solution
+            else:
+                if (best_solution < self.best_solution):
+                    self.best_solution= best_solution
             model = Model.get_model(population, self.truncation_size)
         
         self.best_solution = min(population)
