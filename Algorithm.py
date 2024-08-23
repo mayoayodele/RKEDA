@@ -18,19 +18,24 @@ class Algorithm:
         self.population_size = population_size
         self.truncation_size = truncation_size
         self.number_of_generations = number_of_generations
-        if (cooling_factor is None):
-            cooling_factor = 1/number_of_generations
-        if(end_sigma is None):
-            self.cooling_rates = [((1-(cooling_factor*i)) * initial_sigma) for i in range(number_of_generations)]
+        self.initial_sigma = initial_sigma
+        self.end_sigma = end_sigma
+        
+        if(cooling_factor is None):
+            self.cooling_factor = 1/number_of_generations
         else:
-            self.cooling_rates = [((1-(cooling_factor*i)) * initial_sigma) if (((1-(cooling_factor*i)) * initial_sigma) > end_sigma) else end_sigma for i in range(number_of_generations)]
+            self.cooling_factor = cooling_factor
+            
 
 
             
     def run_algorithm(self, objective_function):
         model = None
+        sigma = self.initial_sigma
         for j in range(self.number_of_generations):
-            sigma = self.cooling_rates[j]
+            temp_sigma = (1-(self.cooling_factor*j)) * self.initial_sigma
+            if(temp_sigma > self.end_sigma):
+                sigma = temp_sigma
             population = []
             for k in range(self.population_size):
                 if(j > 0):
@@ -47,6 +52,4 @@ class Algorithm:
                 if (best_solution < self.best_solution):
                     self.best_solution= best_solution
             model = Model.get_model(population, self.truncation_size)
-        
-        self.best_solution = min(population)
         
