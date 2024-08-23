@@ -1,7 +1,7 @@
 import numpy as np
 from Model import *
 from RK import *
-
+import math
 
 
 class Algorithm:
@@ -12,7 +12,8 @@ class Algorithm:
                 number_of_generations,
                 initial_sigma = 0.3, 
                 end_sigma = 0.1, 
-                cooling_factor= None
+                cooling_factor= None,
+                cooling_scheme = 'linear' #options 'linear', 'sigmoid'
                 ):
         self.problem_size = problem_size
         self.population_size = population_size
@@ -20,7 +21,7 @@ class Algorithm:
         self.number_of_generations = number_of_generations
         self.initial_sigma = initial_sigma
         self.end_sigma = end_sigma
-        
+        self.cooling_scheme = cooling_scheme
         if(cooling_factor is None):
             self.cooling_factor = 1/number_of_generations
         else:
@@ -33,7 +34,12 @@ class Algorithm:
         model = None
         sigma = self.initial_sigma
         for j in range(self.number_of_generations):
-            temp_sigma = (1-(self.cooling_factor*j)) * self.initial_sigma
+            if(self.cooling_scheme.lower() == 'linear'):
+                temp_sigma = (1-(self.cooling_factor*j)) * self.initial_sigma
+            elif(self.cooling_scheme.lower() == 'sigmoid'):
+                temp_sigma = ((1/(1+math.exp(j))) * self.initial_sigma * 2) 
+            else:
+                raise NotImplementedError('Please set cooling scheme to "linear" or "sigmoid"')
             if(temp_sigma > self.end_sigma):
                 sigma = temp_sigma
             population = []

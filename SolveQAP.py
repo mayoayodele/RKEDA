@@ -12,9 +12,7 @@ algorithm = Algorithm(
             population_size=50,
             truncation_size=5,
             number_of_generations= int(stopping_criteria/50),
-            initial_sigma = 0.3,
-            end_sigma = 0.001, 
-            cooling_factor= 0.02
+            cooling_scheme = 'sigmoid'
             )
 
 
