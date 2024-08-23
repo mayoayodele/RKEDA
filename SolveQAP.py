@@ -30,6 +30,6 @@ for i in range(10):
 
     print(algorithm.best_solution.permutation)
     print(algorithm.best_solution.fitness)
-    print(algorithm.total_duration)
+    print(algorithm.total_duration, algorithm.evaluations)
 
 

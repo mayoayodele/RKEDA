@@ -140,5 +140,5 @@ class Algorithm:
             #print(j, overall_duration, duration)
             if((overall_duration+ duration) > self.time_limit):
                 stopping_criteria = True
-
+        self.evaluations = (j-1) * self.population_size
         self.total_duration = overall_duration
