@@ -11,8 +11,9 @@ algorithm = Algorithm(
             problem_size=p.problem_size,
             population_size=50,
             truncation_size=5,
-            number_of_generations= int(stopping_criteria/50),
+            termination= ("number_of_generations", int(stopping_criteria/50)),
             initial_sigma = 0.3)
+
 
 
 algorithm.run_algorithm(p.objective_function_tft)
