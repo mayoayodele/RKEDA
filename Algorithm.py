@@ -1,6 +1,6 @@
 import numpy as np
-from Model import *
-from RK import *
+from RKEDA.Model import *
+from RKEDA.RK import *
 import math
 import datetime
 
@@ -8,12 +8,13 @@ import datetime
 class Algorithm:
     def __init__(self,
                 problem_size,
-                population_size,
-                truncation_size,
+                population_size = 50,
+                truncation_size = 5,
                 termination = ('time_limit', 1),
                 initial_sigma = 0.3, 
-                end_sigma = 0.1, 
+                end_sigma = 0.01, 
                 cooling_factor= None,
+                learning_rate = 1,
                 cooling_scheme = 'linear' #options 'linear', 'sigmoid'
                 ):
         if termination[0].lower() == 'time_limit':
@@ -31,6 +32,7 @@ class Algorithm:
         self.end_sigma = end_sigma
         self.cooling_scheme = cooling_scheme
         self.cooling_factor = cooling_factor
+        self.learning_rate = learning_rate
 
 
     def run_algorithm(self, objective_function):
@@ -43,7 +45,8 @@ class Algorithm:
         #run first iteration
         overall_start_time = datetime.datetime.now()
         sigma = self.initial_sigma
-        
+        #initialise previous model
+        prev_model = [0] * self.problem_size
         number_of_generations = self.number_of_generations
         if(self.cooling_factor is None):
             cooling_factor = 1/number_of_generations
@@ -70,16 +73,19 @@ class Algorithm:
                 population.append(rk)
             best_solution = min(population)
             if(j > 0):
+                
                 if (best_solution < self.best_solution):
                     self.best_solution= best_solution
             else:
                 self.best_solution= best_solution
-            model = Model.get_model(population, self.truncation_size)
+            model = Model.get_model(population, self.truncation_size, prev_model, self.learning_rate)
+            prev_model = model
             j+=1
         
         overall_end_time = datetime.datetime.now()
         overall_duration = (overall_end_time - overall_start_time).total_seconds()
         self.total_duration = overall_duration
+        
 
            
     
@@ -108,7 +114,7 @@ class Algorithm:
         while (stopping_criteria == False):
             start_time = datetime.datetime.now()
             duration_avoid_divisition_by_zero = max(duration, 10**-3)
-            number_of_generations = round((self.time_limit - overall_duration) /duration_avoid_divisition_by_zero)
+            number_of_generations = max(1,round((self.time_limit - overall_duration) /duration_avoid_divisition_by_zero))
             all_generations = number_of_generations + j 
             if(self.cooling_factor is None):
                 cooling_factor = 1/all_generations
@@ -140,5 +146,6 @@ class Algorithm:
             #print(j, overall_duration, duration)
             if((overall_duration+ duration) > self.time_limit):
                 stopping_criteria = True
+
         self.evaluations = (j-1) * self.population_size
         self.total_duration = overall_duration
