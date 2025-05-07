@@ -1,7 +1,7 @@
 from Algorithm import *
-from Problem_QAP import *
+from Problems.Problem_QAP import *
 
-path = 'QAP/had12.dat'
+path = 'Instances/QAP/had12.dat'
 p = Problem_QAP(path)
 
 

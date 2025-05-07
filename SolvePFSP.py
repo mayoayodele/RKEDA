@@ -1,7 +1,7 @@
 from Algorithm import *
-from Problem_PFSP import *
+from Problems.Problem_PFSP import *
 
-path = 'PFSP/tai20_5_0.fsp'
+path = 'Instances/PFSP/tai20_5_0.fsp'
 p = Problem_PFSP(path)
 
 
